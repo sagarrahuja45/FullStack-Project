@@ -1,8 +1,22 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import "./createPost.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+import {
+  StyleButton,
+  StyleCard,
+  StyleCardTitle,
+  StyleError,
+  StyleForm,
+  StyleInput,
+  StyleMain,
+  StyledWrapper,
+  StyledContainer,
+  StyleCardTitleH1
+} from "./createPost.styled";
+const token = localStorage.getItem('token');
+
 
 const CreatePost = () => {
   const navigate = useNavigate();
@@ -11,18 +25,19 @@ const CreatePost = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const config = {
+    headers: {
+      'token': `${token}`
+    }
+  };
 
   const createSubmit = (data) => {
     try {
-     axios
-        .post("http://localhost:3001/create-post", data)
-        .then((response) => {
-          console.log(response);
-          if (response.status === 200) {
-            navigate("/dashboard");
-          }
-        });
-      
+      axios.post("http://localhost:3001/post/create",data,config).then((response) => {
+        if (response.status === 200) {
+          navigate("/dashboard");
+        }
+      });
     } catch (err) {
       console.log(err);
     }
@@ -30,50 +45,42 @@ const CreatePost = () => {
 
   return (
     <>
-      <section className="wrapper-create-post">
-        <div className="container-create-post">
-          <div className="card">
-            <div className="card-title">
-              <h1> Create a New Post</h1>
-            </div>
+      <StyledWrapper>
+        <StyledContainer>
+          <StyleCard>
+            <StyleCardTitle><StyleCardTitleH1>
+              Create a new post 
+            </StyleCardTitleH1></StyleCardTitle>
 
-            <div className="main-create">
-              <form
-                className="form-create"
-                onSubmit={handleSubmit(createSubmit)}
-              >
-                <input
+            <StyleMain>
+              <StyleForm onSubmit={handleSubmit(createSubmit)}>
+                <StyleInput
                   type="text"
                   className="input-field"
                   placeholder="Title"
                   name="title"
                   {...register("title", { required: "* Please enter a title" })}
-                ></input>
+                ></StyleInput>
                 {errors.title && (
-                  <span className="errors">{errors.title.message}</span>
+                  <StyleError>{errors.title.message}</StyleError>
                 )}
-                <input
+                <StyleInput
                   type="textarea"
-                  className="input-field"
                   placeholder="Description"
                   name="description"
                   {...register("description", {
                     required: "* Please enter description",
                   })}
-                ></input>
+                ></StyleInput>
                 {errors.description && (
-                  <span className="errors">{errors.description.message}</span>
+                  <StyleError>{errors.description.message}</StyleError>
                 )}
-                <input
-                  type="submit"
-                  className="create-button"
-                  value="Create"
-                ></input>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
+                <StyleButton type ="submit">Create</StyleButton>
+              </StyleForm>
+            </StyleMain>
+          </StyleCard>
+        </StyledContainer>
+      </StyledWrapper>
     </>
   );
 };

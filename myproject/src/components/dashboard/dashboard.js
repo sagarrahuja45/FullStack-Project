@@ -1,28 +1,74 @@
-import React from 'react'
-import {useNavigate} from 'react-router-dom';
-import './dashboard.css';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
- const Dashboard = () => {
+import {
+  StyleButton,
+  StyleCard,
+  StyleCardTitle,
+  StyleHeader,
+  StyleCardTitleH3,
+  StylePara,
+  StyleEmailPass,
+  StyleError,
+  StyleForm,
+  StyleInput,
+  StyleMain,
+  StyledContainer,
+  StyledWrapper,
+} from "./dashboard.styled";
 
-    const navigate = useNavigate();
-    const handleCreate = () =>{
-        navigate('/create-post')
+const token = localStorage.getItem('token');
 
-    }
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const handleCreate = () => {
+    navigate("/createPost");
+  };
+  const [posts, setPosts] = useState([]);
+
+
+
+  useEffect(() => {
+    const url = 'http://localhost:3001/post/list';
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+    axios.get(url, config)
+      .then((response) => {
+        setPosts(response.data.userPost);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <>
-    <section className='wrapper-dashboard'>
-        <div className='container-dashboard'>
-            <div className='header-dashboard'>
-                <h1>DASHBOARD</h1>
-            </div>
-            <div className='main-dashboard'>
-                <button className='create-post-button' onClick={handleCreate}>Create New Post</button>
-            </div>
-        </div>
-    </section>
+      <StyledWrapper>
+        <StyledContainer>
+          <StyleHeader>
+            <StyleCardTitleH3>DASHBOARD</StyleCardTitleH3>
+          </StyleHeader>
+          <StyleMain>
+            <StyleButton onClick={handleCreate}>Create New Post</StyleButton>
+               {/* Render the posts */}
+               {posts.map((post, index) => (
+                <StyleCard>
+              <StyleCardTitle key={index}>
+                <StyleCardTitleH3>{post.title}</StyleCardTitleH3>
+                <StylePara>{post.description}</StylePara>
+              </StyleCardTitle>
+              </StyleCard>
+            ))}
+          </StyleMain>
+        </StyledContainer>
+      </StyledWrapper>
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

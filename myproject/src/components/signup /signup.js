@@ -1,7 +1,19 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import "./signup.css";
+
+import {
+  StyleButton,
+  StyleCard,
+  StyleCardTitle,
+  StyleCardTitleH1,
+  StyleError,
+  StyleForm,
+  StyleInput,
+  StyleMain,
+  StyledContainer,
+  StyledWrapper,
+} from "./signup.styled";
 
 const Signup = () => {
   const {
@@ -23,75 +35,75 @@ const Signup = () => {
 
   return (
     <>
-      <section className="wrapper-signup">
-        <div className="container-signup">
-          <div className="card">
-            <div className="card-title">
+      <StyledWrapper>
+        <StyledContainer>
+          <StyleCard>
+            <StyleCardTitle>
               {" "}
-              <h1>CREATE ACCOUNT</h1>
+              <StyleCardTitleH1>CREATE ACCOUNT</StyleCardTitleH1>
               <span>Already have an account?</span>
               <a href="/login"> Sign In</a>
-            </div>
+            </StyleCardTitle>
 
-            <div className="main-signup">
-              <form className="form-signup" onSubmit={handleSubmit(onSubmit)}>
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    name="firstName"
-                    className="input-field"
-                    {...register("firstName", {
-                      required: "First Name is required",
-                    })}
-                  ></input>
-                  {errors.firstName && <span className="errors">* {errors.firstName.message}</span>}
+            <StyleMain>
+              <StyleForm onSubmit={handleSubmit(onSubmit)}>
+                <StyleInput
+                  type="text"
+                  placeholder="First Name"
+                  name="firstName"
+                  {...register("firstName", {
+                    required: "First Name is required",
+                  })}
+                ></StyleInput>
+                {errors.firstName && (
+                  <StyleError>* {errors.firstName.message}</StyleError>
+                )}
 
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    name="lastName"
-                    className="input-field"
-                    {...register("lastName", {
-                      required: "Last Name is required",
-                    })}
-                  ></input>
-                  {errors.lastName && <span className="errors">* {errors.lastName.message}</span>}
+                <StyleInput
+                  type="text"
+                  placeholder="Last Name"
+                  name="lastName"
+                  {...register("lastName", {
+                    required: "Last Name is required",
+                  })}
+                ></StyleInput>
+                {errors.lastName && (
+                  <StyleError>* {errors.lastName.message}</StyleError>
+                )}
 
-                  <input
-                    type="text"
-                    placeholder="Email"
-                    name="email"
-                    className="input-field"
-                    {...register("email", {
-                      required: "Email is required",
-                      pattern: {
-                        value: /^\S+@\S+$/i,
-                        message: "please enter a valid email",
-                      },
-                    })}
-                  ></input>
-                  {errors.email && <span className="errors">* {errors.email.message}</span>}
+                <StyleInput
+                  type="text"
+                  placeholder="Email"
+                  name="email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "please enter a valid email",
+                    },
+                  })}
+                ></StyleInput>
+                {errors.email && (
+                  <StyleError>* {errors.email.message}</StyleError>
+                )}
 
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    className="input-field"
-                    {...register("password", {
-                      required: "password is required",
-                    })}
-                  ></input>
-                  {errors.password && <span className="errors">* {errors.password.message}</span>}
-                  <input
-                    type="submit"
-                    className="signup-button"
-                    value="Signup"
-                  ></input>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
+                <StyleInput
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  {...register("password", {
+                    required: "password is required",
+                  })}
+                ></StyleInput>
+                {errors.password && (
+                  <StyleError>* {errors.password.message}</StyleError>
+                )}
+                <StyleButton type="submit">Signup</StyleButton>
+              </StyleForm>
+            </StyleMain>
+          </StyleCard>
+        </StyledContainer>
+      </StyledWrapper>
     </>
   );
 };

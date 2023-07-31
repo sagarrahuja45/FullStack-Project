@@ -7,20 +7,21 @@ import {
   StyleCard,
   StyleCardTitle,
   StyleCardTitleH1,
-  StyleError,
   StyleForm,
-  StyleInput,
   StyleMain,
   StyledContainer,
   StyledWrapper,
 } from "./signup.styled";
 
+import FormInput from "../form/elements/formInput";
+import { validateFirstName, validateEmail, validateLastName, validatePassword} from "../../utils/formValidations";
+
 const Signup = () => {
   const {
-    register,
-    handleSubmit,
+    control,
     formState: { errors },
-  } = useForm();
+    handleSubmit,
+  } = useForm({ mode: 'all', reValidateMode: 'onChange' });
 
   const onSubmit = (data) => {
     axios
@@ -47,57 +48,43 @@ const Signup = () => {
 
             <StyleMain>
               <StyleForm onSubmit={handleSubmit(onSubmit)}>
-                <StyleInput
-                  type="text"
-                  placeholder="First Name"
-                  name="firstName"
-                  {...register("firstName", {
-                    required: "First Name is required",
-                  })}
-                ></StyleInput>
-                {errors.firstName && (
-                  <StyleError>* {errors.firstName.message}</StyleError>
-                )}
+                <FormInput
+                control={control}
+                name='firstName'
+                type='text'
+                placeholder="First Name"
+                rules={validateFirstName}
+                errors={errors}                
+                />
+                 <FormInput
+                control={control}
+                name='lastName'
+                type='text'
+                placeholder="Last Name"
+                rules={validateLastName}
+                errors={errors}                
+                />
+                <FormInput
+                control={control}
+                name='email'
+                type='email'
+                placeholder="Email"
+                rules={validateEmail}
+                errors={errors}                
+                />
+                 <FormInput
+                control={control}
+                name='password'
+                type='password'
+                placeholder="Password"
+                rules={validatePassword}
+                errors={errors}                
+                />
+                 
 
-                <StyleInput
-                  type="text"
-                  placeholder="Last Name"
-                  name="lastName"
-                  {...register("lastName", {
-                    required: "Last Name is required",
-                  })}
-                ></StyleInput>
-                {errors.lastName && (
-                  <StyleError>* {errors.lastName.message}</StyleError>
-                )}
 
-                <StyleInput
-                  type="text"
-                  placeholder="Email"
-                  name="email"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: "please enter a valid email",
-                    },
-                  })}
-                ></StyleInput>
-                {errors.email && (
-                  <StyleError>* {errors.email.message}</StyleError>
-                )}
+                
 
-                <StyleInput
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  {...register("password", {
-                    required: "password is required",
-                  })}
-                ></StyleInput>
-                {errors.password && (
-                  <StyleError>* {errors.password.message}</StyleError>
-                )}
                 <StyleButton type="submit">Signup</StyleButton>
               </StyleForm>
             </StyleMain>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -70,7 +70,7 @@ const Login = () => {
                 {errors.password && (
                   <StyleError>* {errors.password.message}</StyleError>
                 )}
-                <StyleButton type="submit">Signup</StyleButton>
+                <StyleButton type="submit">Login</StyleButton>
               </StyleForm>
             </StyleMain>
           </StyleCard>

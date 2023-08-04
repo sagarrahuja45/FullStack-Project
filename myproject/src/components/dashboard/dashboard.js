@@ -62,7 +62,6 @@ const Dashboard = () => {
     axios
       .delete(`http://localhost:3001/post/delete?_id=${postId}`)
       .then((response) => {
-        // Fetch the updated list of posts after successful deletion
         axios
           .get("http://localhost:3001/post/list", {
             headers: {
